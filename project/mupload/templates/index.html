@@ -6,9 +6,9 @@
 </head>
 <body>
     <h1>Upload File</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+    <form action="/upload/" method="post" enctype="multipart/form-data" accept-charset="utf-8">
         {% csrf_token %}
-        <input type="file" name="pic" value="" multiple="" />
+        <input type="file" name="Filedata" value="" multiple="" />
         <button>Submit</button>
     </form>
 </body>

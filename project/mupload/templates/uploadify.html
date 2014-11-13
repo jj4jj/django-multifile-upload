@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script type="text/javascript" src="/site_media/js/jquery-1.11.1.min.js"></script>
+<link href="/site_media/plugin/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/site_media/plugin/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="/site_media/plugin/uploadify/jquery.uploadify.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  var file_name='';
+  $('#file_upload').uploadify({
+    'swf'  : '/site_media/plugin/uploadify/uploadify.swf',
+    'uploader' : '/upload/',
+    'cancelImg' : '/site_media/plugin/uploadify/uploadify-cancel.png',
+    'auto'      : true,//false,//
+    'multi': true,
+    'simUploadLimit':5,
+    'buttonText':'Browse...',
+    'removeCompleted':false,
+    'sizeLimit':102400,
+    'fileExt':'*.doc;*.docx;*.odt',
+    'fileDesc':'support file type',
+    'formData' : {csrfmiddlewaretoken: '{{ csrf_token }}'},
+    'onInit': function () {},
+    'onError' : function (event,ID,fileObj,errorObj) {
+            $('#id_span_msg').html("fail，error:"+errorObj.type+" "+errorObj.info);
+        },
+    'onSelect': function (e, queueId, fileObj) {
+        $('#id_span_msg').html("");
+    },
+    'onCancel'    : function(event,ID,fileObj,data) {
+      $.post("/delete_uploadfile/", { delete_file: file_name } );
+      file_name='';
+    },
+    'onComplete': function(event, ID, fileObj, response, data) {
+        var result = eval ("(" + response + ")");
+        file_name=result.save_name;
+    }
+  });
+});
+</script>
+</head>
+
+<body>
+
+<h1>Uploadify upload</h1>
+<div class="demo-box">
+    <input id="file_upload" type="file" name="Filedata" mltiple="" >
+    <div id="file_uploadQueue" class="uploadifyQueue"></div>
+    <p><span id="id_span_msg"></span></p>
+    <p>
+      <a href="javascript:$('#file_upload').uploadifyUpload()">Upload</a>|
+      <a href="javascript:$('#file_upload').uploadifyClearQueue()">Cancel</a>
+    </p>
+</div>
+
+</div>
+</body>
+</html>
