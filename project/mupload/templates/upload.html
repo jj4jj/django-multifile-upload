@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Upload Successed</title>
+</head>
+<body>
+    <h1>Upload file successed.</h1>
+    {% for file in flist %}
+    <pre>
+        filename: {{ file.name }}
+        filesize: {{ file.size }} bytes
+    </pre>
+    {% endfor %}
+    <a href="/">back</a>
+</body>
+</html>
